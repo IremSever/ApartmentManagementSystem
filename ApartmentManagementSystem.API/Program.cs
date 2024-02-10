@@ -10,9 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(optionsAction: options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(connectionString: builder.Configuration.GetConnectionString(name: "SqlServer"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
 });
 
 builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
