@@ -1,6 +1,9 @@
-﻿namespace ApartmentManagementSystem.API.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace ApartmentManagementSystem.API.Models
 {
-    public class AppRole
+    public class AppRole : IdentityRole<Guid>
     {
+
     }
 }

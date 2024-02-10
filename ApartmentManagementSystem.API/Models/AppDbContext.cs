@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 namespace ApartmentManagementSystem.API.Models
 {
-    public class AppDbContext: IdentityDbContext<AppUser, AppRole, Guid>
-    {
-    }
+    public class AppDbContext(DbContextOptions<AppDbContext> options) 
+        : IdentityDbContext<AppUser, AppRole, Guid>(options);
 }
