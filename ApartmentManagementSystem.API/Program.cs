@@ -15,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(optionsAction: options =>
     options.UseSqlServer(connectionString: builder.Configuration.GetConnectionString(name: "SqlServer"));
 });
 
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
