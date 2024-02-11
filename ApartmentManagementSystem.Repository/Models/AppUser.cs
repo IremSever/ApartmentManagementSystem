@@ -7,7 +7,7 @@ namespace ApartmentManagementSystem.Repository.Models
         public Guid ResidentId { get; set; } = default!;
         public string FullName { get; set; } = default!;
         public string IdentityNumber { get; set; } = default!;
-        public string PaymentMethod { get; set; } = default!; // Credit Card/Cash
+        public string PaymentMethod { get; set; } = default!;
         public virtual ICollection<Payment> Payments { get; set; } = default!;
     }
 }
