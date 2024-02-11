@@ -18,11 +18,12 @@ namespace ApartmentManagementSystem.API.Services
 
             if (hasUser is null)
                 return ResponseDto<TokenCreateResponseDto>.Fail("Username or password is wrong!");
-            if (checkPassword = false)
+            if (checkPassword == false)
                 return ResponseDto<TokenCreateResponseDto>.Fail("Username or password is wrong");
 
-            var signatureKey = configuration.GetSection("TokenOptions")!["Key"]!;
+            var signatureKey = configuration.GetSection("TokenOptions")!["SignatureKey"]!;
             var expireAsHour = configuration.GetSection("TokenOptions")!["Expire"]!;
+            var issuer = configuration.GetSection("TokenOptions")!["Issuer"]!;
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signatureKey));
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
@@ -42,7 +43,8 @@ namespace ApartmentManagementSystem.API.Services
             var token = new JwtSecurityToken(
                 expires: DateTime.Now.AddHours(Convert.ToDouble(expireAsHour)),
                 signingCredentials: signingCredentials,
-                claims: claimList);
+                claims: claimList,
+                issuer: issuer);
 
             var responseDto = new TokenCreateResponseDto
             {

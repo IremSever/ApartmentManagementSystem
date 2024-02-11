@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApartmentManagementSystem.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class IdentitiesController(IdentityService identityService, TokenService tokenService) : ControllerBase
     {
@@ -20,6 +20,7 @@ namespace ApartmentManagementSystem.API.Controllers
             return Created("", response);
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateToken(TokenCreateRequestDto request)
         {
             var response = await tokenService.Create(request);
@@ -31,7 +32,8 @@ namespace ApartmentManagementSystem.API.Controllers
         }
 
         //Role Assignment
-        public async Task<IActionResult> CreateRole(RoleCreateRequestDto request)
+        [HttpPost]
+        public async Task<IActionResult> AssignRoleToUser(RoleCreateRequestDto request)
         {
             var response = await identityService.CreateRole(request);
 

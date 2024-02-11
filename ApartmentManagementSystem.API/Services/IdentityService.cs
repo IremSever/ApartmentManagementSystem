@@ -14,7 +14,6 @@ namespace ApartmentManagementSystem.API.Services
     {
         public UserManager<AppUser> UserManager { get; set; } = userManager;
         public RoleManager<AppRole> RoleManager { get; set; } = roleManager;
-
         public SignInManager<AppUser> SignInManager { get; set; } = signInManager;
 
         public async Task<ResponseDto<Guid>> CreateUser(UserCreateRequestDto request)
@@ -45,7 +44,6 @@ namespace ApartmentManagementSystem.API.Services
                 Name = request.RoleName
             };
 
-
             //Check Role
             var hasRole = await roleManager.RoleExistsAsync(appRole.Name);
             IdentityResult? roleCreateResult = null;
@@ -63,7 +61,7 @@ namespace ApartmentManagementSystem.API.Services
             if(hasUser is null)
                 return ResponseDto<String>.Fail("User not found!");
 
-            //Role Assigment
+            //Role Assignment
             var roleAssignResult = await userManager.AddToRoleAsync(hasUser, appRole.Name);
             if (!roleAssignResult.Succeeded)
             {
