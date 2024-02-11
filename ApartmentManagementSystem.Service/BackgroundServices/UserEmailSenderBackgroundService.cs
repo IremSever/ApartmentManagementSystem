@@ -1,5 +1,7 @@
 ﻿using ApartmentManagementSystem.Repository.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace ApartmentManagementSystem.API.BackgroundServices
 {

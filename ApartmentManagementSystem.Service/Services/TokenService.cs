@@ -15,12 +15,9 @@ namespace ApartmentManagementSystem.Service.Services
         public async Task<ResponseDto<TokenCreateResponseDto>> Create(TokenCreateRequestDto request)
         {
             var hasUser = await userManager.FindByNameAsync(request.UserName);
-            var checkPassword = await userManager.CheckPasswordAsync(hasUser!, request.Password);
 
-            if (hasUser is null)
+            if (hasUser == null || !await userManager.CheckPasswordAsync(hasUser, request.Password))
                 return ResponseDto<TokenCreateResponseDto>.Fail("Username or password is wrong!");
-            if (checkPassword == false)
-                return ResponseDto<TokenCreateResponseDto>.Fail("Username or password is wrong");
 
             var signatureKey = configuration.GetSection("TokenOptions")!["SignatureKey"]!;
             var expireAsHour = configuration.GetSection("TokenOptions")!["Expire"]!;

@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Extensions.Hosting;
+
 namespace ApartmentManagementSystem.API.BackgroundServices
 {
     public class ApartmentManagementEmailSenderBackgroundService: BackgroundService
