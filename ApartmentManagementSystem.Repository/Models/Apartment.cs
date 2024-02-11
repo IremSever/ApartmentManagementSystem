@@ -8,7 +8,7 @@
          public string Type { get; set; } = default!; // 2+1,3+1... 
          public int Floor { get; set; } = default!;
          public int ApartmentNumber { get; set; } = default!;
-         public virtual AppUser Resident { get; set; } = default!; 
-        
-     }
+        public virtual AppUser? Resident { get; set; }
+
+    }
 }

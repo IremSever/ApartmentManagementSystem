@@ -10,30 +10,32 @@ namespace ApartmentManagementSystem.API.Controllers
     public class ApartmentManagementController : ControllerBase
     {
         [HttpGet]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Get()
         {
-            return Ok("apartment management");
+            return Ok("Apartment management");
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Save()
         {
-            return Ok("save management");
+            return Ok("Save management");
         }
 
-        [Authorize(Roles = "Manager")]
         [HttpPut]
+        [Authorize(Roles = "Manager")]
         public ActionResult Update()
         {
-            return Ok("update management");
+            return Ok("Update management");
         }
 
-        [Authorize(Policy = "BirthDateOver18Check")]
         [HttpDelete]
+        [Authorize(Policy = "ResidentOwnerAuthorizationHandler")]
         public ActionResult Delete()
         {
-            return Ok("delete management");
+            return Ok("Delete management");
         }
     }
 }
+
