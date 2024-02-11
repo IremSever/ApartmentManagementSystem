@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string Name { get; set; } = default!;
-        public List<ResidentOwner>? ResidentOwner { get; set; }
+        public virtual ICollection<ResidentOwner> ResidentOwners { get; set; } = new List<ResidentOwner>();
     }
 }

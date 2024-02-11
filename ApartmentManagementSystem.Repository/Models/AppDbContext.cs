@@ -11,7 +11,6 @@ namespace ApartmentManagementSystem.Repository.Models
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<AppRole> Roles { get; set; }
         public DbSet<AppUser> Users { get; set; }
@@ -22,18 +21,38 @@ namespace ApartmentManagementSystem.Repository.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Payment>()
-                .Property(p => p.Amount)
-                .HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Apartment>()
+               .HasOne(a => a.Resident)
+               .WithMany(u => u.Apartments)
+               .HasForeignKey(a => a.ResidentId)
+               .OnDelete(DeleteBehavior.Restrict); 
 
-            modelBuilder.Entity<Bill>()
-                .Property(b => b.Amount)
-                .HasColumnType("decimal(18,2)");
-            
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Resident)
+                .WithMany(u => u.Payments)
+                .HasForeignKey(p => p.ResidentId)
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Apartment)
+                .WithMany(a => a.Payments)
+                .HasForeignKey(p => p.ApartmentId)
+                .OnDelete(DeleteBehavior.Cascade); 
+
             modelBuilder.Entity<ResidentOwner>()
-                .HasMany(ro => ro.Tenant)
-                .WithMany(t => t.ResidentOwner)
-                .UsingEntity(j => j.ToTable("ResidentOwnerTenants"));
+                .HasMany(ro => ro.Tenants)
+                .WithMany(t => t.ResidentOwners)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ResidentOwnerTenants",
+                    j => j.HasOne<Tenant>().WithMany().HasForeignKey("TenantId"),
+                    j => j.HasOne<ResidentOwner>().WithMany().HasForeignKey("ResidentOwnerId"),
+                    j =>
+                    {
+                        j.HasKey("TenantId", "ResidentOwnerId");
+                        j.ToTable("ResidentOwnerTenants");
+                    });
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
