@@ -9,7 +9,7 @@
         public Guid ResidentId { get; set; } 
         public int ApartmentId { get; set; } 
         public virtual AppUser Resident { get; set; } = default!;
-        public virtual Apartment Apartment { get; set; } = default!;
+        public virtual AppUser Apartments { get; set; } = default!;
     }
 
 }

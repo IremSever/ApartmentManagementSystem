@@ -12,6 +12,6 @@ namespace ApartmentManagementSystem.Repository.Models
         public virtual ICollection<Payment> Payments { get; set; } = default!;
         public virtual ICollection<Apartment> Apartments { get; set; } = new List<Apartment>();
         public virtual ICollection<Tenant> Tenants { get; set; } = new List<Tenant>();
-       
+        public ICollection<ResidentOwner> ResidentOwners { get; } = default!;
     }
 }
