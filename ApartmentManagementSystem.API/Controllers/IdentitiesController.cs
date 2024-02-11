@@ -1,5 +1,5 @@
-﻿using ApartmentManagementSystem.API.DTOs;
-using ApartmentManagementSystem.API.Services;
+﻿using ApartmentManagementSystem.Service.DTOs;
+using ApartmentManagementSystem.Service.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

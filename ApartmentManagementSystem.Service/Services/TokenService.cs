@@ -1,13 +1,14 @@
-﻿using ApartmentManagementSystem.API.DTOs;
-using ApartmentManagementSystem.API.Models;
-using ApartmentManagementSystem.API.DTOs.Shared;
+﻿using ApartmentManagementSystem.Service.DTOs;
+using ApartmentManagementSystem.Repository.Models;
+using ApartmentManagementSystem.Service.DTOs.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
-namespace ApartmentManagementSystem.API.Services
+namespace ApartmentManagementSystem.Service.Services
 {
     public class TokenService(IConfiguration configuration, UserManager<AppUser> userManager)
     {
@@ -31,6 +32,12 @@ namespace ApartmentManagementSystem.API.Services
             var userIdAsClaim = new Claim(ClaimTypes.NameIdentifier, hasUser.Id.ToString());
             var userNameAsClaim = new Claim(ClaimTypes.Name, hasUser.UserName!);
             var idAsClaim = new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
+
+            var userClaims = await userManager.GetClaimsAsync(hasUser);
+            foreach(var claim in userClaims)
+            {
+                claimList.Add(new Claim(claim.Type, claim.Value));
+            }
 
             claimList.Add(userIdAsClaim);
             claimList.Add(userNameAsClaim);

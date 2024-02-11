@@ -17,7 +17,7 @@ namespace ApartmentManagementSystem.API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public ActionResult Post()
+        public ActionResult Save()
         {
             return Ok("save management");
         }
@@ -27,6 +27,13 @@ namespace ApartmentManagementSystem.API.Controllers
         public ActionResult Update()
         {
             return Ok("update management");
+        }
+
+        [Authorize(Policy = "BirthDateOver18Check")]
+        [HttpDelete]
+        public ActionResult Delete()
+        {
+            return Ok("delete management");
         }
     }
 }

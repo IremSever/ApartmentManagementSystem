@@ -1,4 +1,4 @@
-﻿namespace ApartmentManagementSystem.API.DTOs.Shared;
+﻿namespace ApartmentManagementSystem.Service.DTOs.Shared;
 
 public class ResponseDto<T>
 {

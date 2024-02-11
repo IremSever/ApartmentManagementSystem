@@ -1,4 +1,4 @@
-﻿namespace ApartmentManagementSystem.API.DTOs
+﻿namespace ApartmentManagementSystem.Service.DTOs
 {
     public class TokenCreateRequestDto
     {

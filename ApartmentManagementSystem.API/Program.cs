@@ -1,9 +1,11 @@
-using ApartmentManagementSystem.API.Models;
-using ApartmentManagementSystem.API.Services;
+using ApartmentManagementSystem.Repository.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ApartmentManagementSystem.Service.Services;
+using ApartmentManagementSystem.Service.Requirements;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +20,17 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"),
+        sqloptions => { sqloptions.MigrationsAssembly("ApartmentManagementSystem.Repository"); });
 });
 
-builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -45,6 +54,13 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signatureKey))
     };
+});
+
+builder.Services.AddScoped<IAuthorizationHandler, ResidentOwnerAuthorizationHandler>();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ResidentOwnerAuthorizationHandler", x => { x.RequireRole("ResidentOwner"); });
+
 });
 
 var app = builder.Build();
